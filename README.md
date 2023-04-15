@@ -1,6 +1,17 @@
 # aggregate_bot
 
-### Telegram bot for aggregate transactions by group which user selected.
+## Telegram bot for aggregate transactions by group which user selected.
+
+### Available group types:
+
+```
+
+1) month
+2) day
+3) hour
+
+```
+ Date should be in iso format
 
 ### Request example:
 
