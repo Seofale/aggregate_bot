@@ -113,4 +113,5 @@ async def get_group_salary_data(
         result["dataset"].append(document["total"])
         result["labels"].append(document["date"].isoformat())
 
+    print(result)
     return result

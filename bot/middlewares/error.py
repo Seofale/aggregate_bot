@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Callable, Awaitable, Dict, Any
 
 from aiogram import BaseMiddleware
@@ -18,5 +19,6 @@ class ErrorMiddleware(BaseMiddleware):
             await handler(event, data)
         except json.JSONDecodeError:
             await event.answer("Incorrect JSON format")
-        except Exception:
+        except Exception as e:
+            logging.error(str(e))
             await event.answer("Incorrect JSON data")

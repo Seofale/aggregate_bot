@@ -4,15 +4,15 @@ from aiogram import Bot, Dispatcher
 
 from bot.logger import setup_logging
 from bot.config import settings
-from bot.handlers import message
-from bot.middlewares.error import ErrorMiddleware
+from bot.handlers import setup_routers
+from bot.middlewares import setup_middlewares
 
 
 async def main():
     bot = Bot(settings.bot_token.get_secret_value())
     dp = Dispatcher()
-    dp.message.middleware(ErrorMiddleware())
-    dp.include_router(message.router)
+    setup_middlewares(dp)
+    setup_routers(dp)
     setup_logging()
 
     try:
