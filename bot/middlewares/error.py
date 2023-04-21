@@ -1,4 +1,3 @@
-import json
 import logging
 from typing import Callable, Awaitable, Dict, Any
 
@@ -7,6 +6,10 @@ from aiogram.types import Message, TelegramObject
 
 
 class ErrorMiddleware(BaseMiddleware):
+    def __init__(self, logger: logging.Logger):
+        super().__init__()
+        self.logger = logger
+
     async def __call__(
         self,
         handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
@@ -14,11 +17,7 @@ class ErrorMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         try:
-            json_text = json.loads(event.text)
-            data["json_text"] = json_text
             await handler(event, data)
-        except json.JSONDecodeError:
-            await event.answer("Incorrect JSON format")
         except Exception as e:
-            logging.error(str(e))
-            await event.answer("Incorrect JSON data")
+            self.logger.exception(str(e))
+            await event.answer("Похоже, вы допустили ошибку при запросе :(")

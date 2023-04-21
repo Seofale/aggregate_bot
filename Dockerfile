@@ -2,7 +2,8 @@ FROM python:3.11-slim-bullseye as compile-image
 RUN python -m venv venv
 ENV PATH="/venv/bin:$PATH"
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip \
+RUN python -m pip install --upgrade pip \
+    && pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
 FROM python:3.11-slim-bullseye
